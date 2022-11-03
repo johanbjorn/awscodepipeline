@@ -1,6 +1,6 @@
 import * as apigw from '@aws-cdk/aws-apigateway';
 import * as lambda from '@aws-cdk/aws-lambda';
-import { CfnOutput, Construct, Stack, StackProps } from '@aws-cdk/core';
+import { CfnOutput, Construct, CfnParameter, Stack, StackProps } from '@aws-cdk/core';
 import * as path from 'path';
 
 /**
@@ -15,6 +15,10 @@ export class CdkpipelinesDemoStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    const tableName = new CfnParameter(this, 'tableName', {
+      type: 'String',
+      description: 'The name of the Dynamodb table',
+    });
     // The Lambda function that contains the functionality
     const handler = new lambda.Function(this, 'Lambda', {
       runtime: lambda.Runtime.NODEJS_12_X,
